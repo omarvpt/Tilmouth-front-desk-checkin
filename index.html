@@ -73,6 +73,26 @@
     color:var(--ink);
   }
   .field{margin-bottom:18px;}
+  .room-row{
+    display:flex;
+    gap:10px;
+  }
+  .room-row select{
+    width:78px;
+    padding:12px 8px;
+    font-size:15px;
+    font-family:'Inter',sans-serif;
+    border:1px solid var(--line);
+    border-radius:1px;
+    background:#fff;
+    color:var(--ink);
+  }
+  .room-row select:focus{
+    outline:2px solid var(--accent);
+    outline-offset:0;
+    border-color:var(--accent);
+  }
+  .room-row input{flex:1;}
   input{
     width:100%;
     padding:12px 13px;
@@ -169,7 +189,14 @@
 
       <div class="field" id="field-room">
         <label for="roomNumber">Room #</label>
-        <input type="text" id="roomNumber" inputmode="numeric" placeholder="204">
+        <div class="room-row">
+          <select id="roomPrefix">
+            <option value="B">B</option>
+            <option value="M">M</option>
+            <option value="E">E</option>
+          </select>
+          <input type="text" id="roomNumber" inputmode="numeric" placeholder="204">
+        </div>
         <div class="error">Enter your room number.</div>
       </div>
 
@@ -214,6 +241,8 @@
     const email = document.getElementById('email').value.trim();
     const mobile = document.getElementById('mobile').value.trim();
     const room = document.getElementById('roomNumber').value.trim();
+    const roomPrefix = document.getElementById('roomPrefix').value;
+    const fullRoom = roomPrefix + room;
 
     const nameOk = name.length > 1;
     const emailOk = validEmail(email);
@@ -236,7 +265,7 @@
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({ name: name, email: email, mobile: mobile, room: room })
+        body: JSON.stringify({ name: name, email: email, mobile: mobile, room: fullRoom })
       });
 
       formView.classList.add('hidden');
